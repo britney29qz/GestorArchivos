@@ -5,6 +5,8 @@
         public function __construct() { //Constructor para definir el directorio donde se guardarán los archivos subidos
             $this->directorio = 'uploads/';
         }
+
+
         public function subir($archivo, $titulo) {
             //Verificar que exista un archivo
             if (!isset($archivo) || $archivo['error'] !== UPLOAD_ERR_OK) { //UPLOAD_ERR_OK es una constante que indica que no hubo errores al subir el archivo
@@ -14,7 +16,7 @@
                 ];
             }
             //Verificar que exista el titulo del archivo
-            $titulo = trim($titulo); //trim elimina los espacios en blanco al inicio y al final del título
+            $titulo = strip_tags(trim($titulo)); // strip_tags elimina las etiquetas HTML del título y trim elimina los espacios en blanco al inicio y al final del título
             if (empty($titulo)) {
                 return [
                     'estado' => false,
@@ -25,7 +27,6 @@
             $titulo = preg_replace('/[^a-zA-Z0-9áéíóúüñÁÉÍÓÚÜÑ_-]/u', '_', $titulo); //preg_replace reemplaza los caracteres no permitidos en el título por guiones bajos
             //Reemplazar espacios por guiones bajos
             $titulo = str_replace(' ', '_', $titulo); //str_replace reemplaza los espacios en el título por guiones bajos
-
             //Controlar el tamaño máximo permitido (5MB)
             $tamanoMaximo = 5 * 1024 * 1024;
             if ($archivo['size'] > $tamanoMaximo) {
@@ -69,6 +70,8 @@
                 'mensaje' => 'No fue posible guardar el archivo'
             ];
         }
+
+
         public function listar() {
             $archivos = [];
             $contenido = scandir($this->directorio); //scandir obtiene una lista de archivos y directorios dentro del directorio especificado
@@ -93,6 +96,8 @@
             }
             return $archivos;
         }
+
+
         public function eliminar($nombre) {
             $nombreSeguro = basename($nombre); //basename obtiene el nombre del archivo sin la ruta, evitando problemas de seguridad con rutas relativas
             $rutaArchivo = $this->directorio . $nombreSeguro;
@@ -114,3 +119,4 @@
             ];
         }
     }
+?>
