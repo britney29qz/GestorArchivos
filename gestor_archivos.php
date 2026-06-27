@@ -98,8 +98,8 @@
         }
 
 
-        public function eliminar($nombre) {
-            $nombreSeguro = basename($nombre); //basename obtiene el nombre del archivo sin la ruta, evitando problemas de seguridad con rutas relativas
+        public function eliminar($archivo) {
+            $nombreSeguro = basename($archivo); //basename obtiene el nombre del archivo sin la ruta, evitando problemas de seguridad con rutas relativas
             $rutaArchivo = $this->directorio . $nombreSeguro;
             if (!file_exists($rutaArchivo)) { //Verificar si el archivo no existe en la ruta especificada
                 return [
